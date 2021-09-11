@@ -5,6 +5,7 @@ go_library(
     srcs = ["main.go"],
     importpath = "github.com/nrnrk/bazel-sample/childapp",
     visibility = ["//visibility:private"],
+    deps = ["//library/strlib"],
 )
 
 go_binary(
