@@ -5,7 +5,10 @@ go_library(
     srcs = ["main.go"],
     importpath = "github.com/nrnrk/bazel-sample/childapp",
     visibility = ["//visibility:private"],
-    deps = ["//library/strlib"],
+    deps = [
+        "//hello",
+        "@org_golang_google_grpc//:go_default_library",
+    ],
 )
 
 go_binary(

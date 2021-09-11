@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+option go_package = "github.com/nrnrk/bazel-sample/hello/hello";
+
+package hello;
+
+service Hello {
+  rpc Say (HelloRequest) returns (HelloResponse) {}
+}
+
+message HelloRequest {
+  string message = 1;
+}
+
+message HelloResponse {
+  string message = 1;
+}
