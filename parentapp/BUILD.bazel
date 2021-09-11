@@ -5,6 +5,7 @@ go_library(
     srcs = ["main.go"],
     importpath = "github.com/nrnrk/bazel-sample/parentapp",
     visibility = ["//visibility:private"],
+    deps = ["@com_github_gin_gonic_gin//:go_default_library"],
 )
 
 go_binary(

@@ -1,5 +1,10 @@
 *~
 bazel-*
 .bazelrc
+
+/parentapp/parentapp
+/childapp/childapp
+/library/library
+
 # VS Code
 .vscode
