@@ -1,3 +1,7 @@
+######################################
+# Go Setting
+######################################
+
 load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
 
 http_archive(
@@ -488,6 +492,10 @@ go_rules_dependencies()
 go_register_toolchains(version = "1.17")
 
 gazelle_dependencies()
+
+######################################
+# Protocol Buffers Setting
+######################################
 
 http_archive(
     name = "com_google_protobuf",
