@@ -2,6 +2,9 @@ syntax = "proto3";
 
 option go_package = "github.com/nrnrk/bazel-sample/hello/hello";
 
+import "google/protobuf/timestamp.proto";
+import "github.com/mwitkow/go-proto-validators/validator.proto";
+
 package hello;
 
 service Hello {
@@ -9,7 +12,8 @@ service Hello {
 }
 
 message HelloRequest {
-  string message = 1;
+  string message = 1 [(validator.field) = { string_not_empty: true }];
+  google.protobuf.Timestamp timestamp = 2;
 }
 
 message HelloResponse {

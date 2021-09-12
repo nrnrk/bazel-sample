@@ -7,6 +7,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"google.golang.org/grpc"
+	"google.golang.org/protobuf/types/known/timestamppb"
 
 	pb "github.com/nrnrk/bazel-sample/hello/hello"
 )
@@ -37,7 +38,7 @@ func hoge() {
 
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
-	r, err := client.Say(ctx, &pb.HelloRequest{Message: requestMessage})
+	r, err := client.Say(ctx, &pb.HelloRequest{Message: requestMessage, Timestamp: timestamppb.Now()})
 	if err != nil {
 		log.Fatalf("failed to say hello: %v", err)
 	}

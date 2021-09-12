@@ -6,6 +6,10 @@ proto_library(
     name = "hello_proto",
     srcs = ["hello.proto"],
     visibility = ["//visibility:public"],
+    deps = [
+        "@com_github_mwitkow_go_proto_validators//:validator_proto",
+        "@com_google_protobuf//:timestamp_proto",
+    ],
 )
 
 go_proto_library(
@@ -14,6 +18,7 @@ go_proto_library(
     importpath = "github.com/nrnrk/bazel-sample/hello/hello",
     proto = ":hello_proto",
     visibility = ["//visibility:public"],
+    deps = ["@com_github_mwitkow_go_proto_validators//:validators_golang"],
 )
 
 go_library(
