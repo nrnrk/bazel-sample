@@ -8,6 +8,7 @@ import (
 	"google.golang.org/grpc"
 
 	pb "github.com/nrnrk/bazel-sample/hello/hello"
+	"github.com/nrnrk/bazel-sample/library/strlib"
 )
 
 const (
@@ -33,5 +34,5 @@ type HelloServer struct {
 }
 
 func (s *HelloServer) Say(ctx context.Context, in *pb.HelloRequest) (*pb.HelloResponse, error) {
-	return &pb.HelloResponse{Message: "Hello"}, nil
+	return &pb.HelloResponse{Message: strlib.Concat("Hello", " World!")}, nil
 }
