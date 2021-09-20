@@ -2,7 +2,7 @@
 # Go Setting
 ######################################
 
-load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive")
+load("@bazel_tools//tools/build_defs/repo:http.bzl", "http_archive", "http_file")
 
 http_archive(
     name = "io_bazel_rules_go",
@@ -526,6 +526,7 @@ load(
     "@io_bazel_rules_docker//repositories:repositories.bzl",
     container_repositories = "repositories",
 )
+load("@io_bazel_rules_docker//container:pull.bzl", "container_pull")
 
 container_repositories()
 
@@ -539,3 +540,20 @@ load(
 )
 
 _go_image_repos()
+
+container_pull(
+    name = "alpine_linux_amd64",
+    registry = "index.docker.io",
+    repository = "library/alpine",
+    tag = "3.13",
+    digest = "sha256:e15947432b813e8ffa90165da919953e2ce850bef511a0ad1287d7cb86de84b5",
+)
+
+http_file(
+    name = "gcloud_archive",
+    downloaded_file_path = "google-cloud-sdk.tar.gz",
+    sha256 = "1c66cfac8684e4e46141c3ac37bf8bbbbf39100c4b8bca88ae83196aba6ab56a",
+    urls = [
+        "https://dl.google.com/dl/cloudsdk/channels/rapid/downloads/google-cloud-sdk-356.0.0-linux-arm.tar.gz",
+    ],
+)

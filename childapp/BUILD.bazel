@@ -1,5 +1,8 @@
 load("@io_bazel_rules_go//go:def.bzl", "go_binary", "go_library")
-load("@io_bazel_rules_docker//go:image.bzl", "go_image")
+load("@io_bazel_rules_docker//container:container.bzl", "container_image", "container_layer")
+load("@io_bazel_rules_docker//docker/util:run.bzl",  "container_run_and_commit")
+
+# Go build
 
 go_library(
     name = "childapp_lib",
@@ -19,8 +22,49 @@ go_binary(
     visibility = ["//visibility:public"],
 )
 
-go_image(
-    name = "childapp_image",
-    embed = [":childapp_lib"],
-    visibility = ["//visibility:public"],
+# Docker build
+
+container_layer(
+    name = "gcloud-layer",
+    tars = [
+        "@gcloud_archive//file",
+    ],
 )
+
+container_image(
+    name = "childapp_bin",
+    base = "@alpine_linux_amd64//image",
+    layers = [":gcloud-layer"],
+    files = [":childapp"],
+    cmd = "",
+)
+
+container_run_and_commit(
+    name = "setup",
+    commands = [
+        # setup python for cloud SDK
+        "apk add --update --no-cache python3",
+        # setup cloud sdk
+        "/google-cloud-sdk/install.sh -q",
+        "echo 'source /google-cloud-sdk/path.bash.inc' >> ~/.bashrc",
+        # setup redis-cli
+        "apk add --update --no-cache redis",
+    ],
+    image = ":childapp_bin.tar",
+)
+
+container_image(
+    name = "childapp_image",
+    base = ":setup",
+    files = [":childapp"],
+    cmd = ["./childapp"] ,
+)
+
+
+# Test
+
+# container_test(
+#     name = "extended_alpine_bazel_test",
+#     configs = ["//extended/test_configs:extended_alpine.yaml"],
+#     image = ":extended_alpine",
+# )
